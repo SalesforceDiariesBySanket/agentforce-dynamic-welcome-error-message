@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Escalated__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>True if the session was handed off to a human (deterministic).</description>
+    <inlineHelpText>Flags sessions handed off to a human agent. Used to report escalation rate and to separate bot-resolved from human-resolved conversations.</inlineHelpText>
+    <label>Escalated</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Resolved__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>True if the session was resolved without human escalation.</description>
+    <inlineHelpText>Flags sessions resolved without human escalation. Used to measure self-service / bot resolution rate.</inlineHelpText>
+    <label>Resolved</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

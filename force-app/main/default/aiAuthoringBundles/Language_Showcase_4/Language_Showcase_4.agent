@@ -1,0 +1,150 @@
+# =============================================================================
+# LANGUAGE SHOWCASE
+# A teaching agent that demonstrates every permutation of the `language` block.
+# References:
+#   "Agent Script Blocks" (language block):
+#     https://developer.salesforce.com/docs/ai/agentforce/guide/ascript-blocks.html#language-block
+#   "Agentforce Language Support" (authoritative, current locale list + Beta/GA):
+#     https://help.salesforce.com/s/articleView?id=ai.agent_language_support.htm&type=5
+#
+# The ACTIVE (uncommented) blocks form a complete, deployable, multilingual
+# Employee Agent with 2 very simple subagents. Every commented "VARIATION"
+# shows a different language configuration.
+#
+# HOW TO DEMO (one variation at a time for viewers):
+#   1. Comment out the ACTIVE `language:` block.
+#   2. Uncomment ONE "VARIATION" block (remove the leading "# " on each line).
+#   3. Save and re-validate. Only ONE `language:` block may be active at a time.
+#
+# INDENTATION: 4 spaces, never tabs. Booleans are True / False (capitalized).
+# =============================================================================
+
+
+config:
+    developer_name: "Language_Showcase"
+    agent_label: "Language Showcase"
+    agent_type: "AgentforceServiceAgent"
+    default_agent_user: "case_assist_agent@00dgl00000s90vl1549306696.ext"
+    description: "Teaching agent that demonstrates every language block permutation."
+
+system:
+    instructions: |
+        | You are a multilingual assistant. Detect the language the user writes in and always reply in that same language.
+
+    messages:        
+        welcome: | {!@variables.Greeting_Message}            
+        error: | {!@variables.Error_Message}
+
+    
+
+variables:
+    welcome_message_linked: linked string
+        source: @MessagingSession.Greeting_Message__c
+        description: ""
+    error_message_linked: linked string
+        source: @MessagingSession.Error_Message__c
+        description: ""
+    VoiceCallId: linked string
+        description: "This variable may also be referred to as Voice Call Id"
+        source: @VoiceCall.Id
+    locale: linked string
+        description: "This variable may also be referred to as MessagingSession locale__c"
+        label: "locale"
+        source: @MessagingSession.locale__c
+    Error_Message: linked string
+        description: "This variable may also be referred to as MessagingSession Error_Message__c"
+        label: "Error Message"
+        source: @MessagingSession.Error_Message__c
+    Greeting_Message: linked string
+        description: "This variable may also be referred to as MessagingSession Greeting_Message__c"
+        label: "Greeting Message"
+        source: @MessagingSession.Greeting_Message__c
+
+language:
+    default_locale: "en_US"
+    additional_locales: "es_MX,fr,de"
+    all_additional_locales: False
+
+# --- VARIATION L1: single language (default_locale only) --------------------
+# The minimum language block - the agent is monolingual.
+# language:
+#     default_locale: "en_US"
+
+# --- VARIATION L2: explicit multilingual list -------------------------------
+# language:
+#     default_locale: "en_US"
+#     additional_locales: "es_MX,fr,de,ja"
+#     all_additional_locales: False
+
+# --- VARIATION L3: support ALL available locales ----------------------------
+# When all_additional_locales is True, the additional_locales list is ignored.
+# language:
+#     default_locale: "en_US"
+#     all_additional_locales: True
+
+# --- VARIATION L4: default + explicitly NO secondary languages --------------
+# language:
+#     default_locale: "en_US"
+#     additional_locales: ""
+#     all_additional_locales: False
+
+# --- VARIATION L5: a non-English default locale -----------------------------
+# default_locale does not have to be English.
+# language:
+#     default_locale: "fr_FR"
+#     additional_locales: "en_US,ja"
+#     all_additional_locales: False
+
+# --- USAGE: respond in the user's language (reasoning pattern) --------------
+# The language block declares SUPPORT; system/reasoning instructions tell the
+# LLM how to behave. Pattern from the LanguageSettings recipe:
+#     reasoning:
+#         instructions: ->
+#             | Detect the user's language and ALWAYS reply in that same language.
+#             | If they write in Spanish say "Hola", in French "Bonjour", in German "Hallo".
+#             | If the language is unsupported, reply in the default locale (English).
+
+
+# =============================================================================
+# START AGENT  (required, exactly one)  -  routes to the 2 demo subagents
+# =============================================================================
+start_agent agent_router:
+    description: "Greet the user in their language and route to a demo subagent."
+    reasoning:
+        instructions: ->
+            | Detect the language the user is writing in and respond in it. Always show value in {!@variables.welcome_message_linked}
+            | Route to the greeting subagent for hellos, or the farewell subagent
+            | when the user is saying goodbye.
+        actions:
+            go_greeting: @utils.transition to @subagent.greeting
+                description: "Use for greetings and small talk."
+            go_farewell: @utils.transition to @subagent.farewell
+                description: "Use when the user is ending the conversation."
+
+
+# =============================================================================
+# SUBAGENT 1 of 2  -  greeting  (instructions only, multilingual)
+# =============================================================================
+subagent greeting:
+    label: "Greeting"
+    description: "Greets the user in their detected language. Instructions only - no actions."
+    reasoning:
+        instructions: ->
+            | Greet the user warmly in the SAME language they used. Always show value in {!@variables.welcome_message_linked}
+            | Spanish -> "Hola", French -> "Bonjour", German -> "Hallo", else English.
+            | Then ask how you can help today.
+        if @variables.locale == "en_US":
+            set @MessagingSession.Greeting_Message__c = "Hi! I can speak English, Spanish, French, and German. How can I help?"
+            set @MessagingSession.Error_Message__c = "Sorry, something went wrong. Please try again."
+
+        if @variables.locale == "es_MX":
+            set @MessagingSession.Greeting_Message__c = "\u00a1Hola! Hablo ingl\u00e9s, espa\u00f1ol, franc\u00e9s y alem\u00e1n. \u00bfC\u00f3mo puedo ayudarte?"
+            set @MessagingSession.Error_Message__c = "Lo sentimos, algo sali\u00f3 mal. Por favor, int\u00e9ntalo de nuevo."
+
+        if @variables.locale == "fr":
+            set @MessagingSession.Greeting_Message__c = "Bonjour ! Je parle anglais, espagnol, fran\u00e7ais et allemand. Comment puis-je vous aider ?"
+            set @MessagingSession.Error_Message__c = "D\u00e9sol\u00e9, une erreur s'est produite. Veuillez r\u00e9essayer."
+
+        if @variables.locale == "de":
+            set @MessagingSession.Greeting_Message__c = "Hallo! Ich spreche Englisch, Spanisch, Franz\u00f6sisch und Deutsch. Wie kann ich Ihnen helfen?"
+            set @MessagingSession.Error_Message__c = "Entschuldigung, es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."

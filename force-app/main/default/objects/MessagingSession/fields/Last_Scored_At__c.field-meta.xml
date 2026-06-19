@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Last_Scored_At__c</fullName>
+    <description>When this session was last scored by the engine.</description>
+    <inlineHelpText>Timestamp of the most recent AI scoring run for this session. Lets you confirm scoring ran and find sessions waiting to be re-scored.</inlineHelpText>
+    <label>Last Scored At</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>DateTime</type>
+</CustomField>

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Route_to_Service_Agent</name>
+        <label>Route to Service Agent</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>routeWork</actionName>
+        <actionType>routeWork</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>psrInteractionInfo</name>
+        </inputParameters>
+        <inputParameters>
+            <name>serviceChannelLabel</name>
+            <value>
+                <stringValue>Messaging</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>serviceChannelDevName</name>
+            <value>
+                <stringValue>sfdc_livemessage</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>routingType</name>
+            <value>
+                <stringValue>Copilot</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>routingConfigLabel</name>
+        </inputParameters>
+        <inputParameters>
+            <name>agentLabel</name>
+        </inputParameters>
+        <inputParameters>
+            <name>queueLabel</name>
+            <value>
+                <stringValue>Hotel Booking Queue</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>skillOption</name>
+        </inputParameters>
+        <inputParameters>
+            <name>skillRequirementsResourceItem</name>
+        </inputParameters>
+        <inputParameters>
+            <name>botLabel</name>
+        </inputParameters>
+        <inputParameters>
+            <name>externalConversationBotLabel</name>
+        </inputParameters>
+        <inputParameters>
+            <name>copilotLabel</name>
+            <value>
+                <stringValue>Language Showcase</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>agentforceEmployeeAgentLabel</name>
+        </inputParameters>
+        <inputParameters>
+            <name>digitalWorkerLabel</name>
+        </inputParameters>
+        <inputParameters>
+            <name>serviceChannelId</name>
+            <value>
+                <setupReference>sfdc_livemessage</setupReference>
+                <setupReferenceType>ServiceChannel</setupReferenceType>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>routingConfigId</name>
+        </inputParameters>
+        <inputParameters>
+            <name>botId</name>
+        </inputParameters>
+        <inputParameters>
+            <name>copilotId</name>
+            <value>
+                <setupReference>Language_Showcase</setupReference>
+                <setupReferenceType>BotDefinition</setupReferenceType>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>agentforceEmployeeAgentId</name>
+        </inputParameters>
+        <inputParameters>
+            <name>externalConversationBotId</name>
+        </inputParameters>
+        <inputParameters>
+            <name>digitalWorkerId</name>
+        </inputParameters>
+        <inputParameters>
+            <name>queueId</name>
+            <value>
+                <!-- REPLACE with your Hotel Booking Queue record ID -->
+                <stringValue>00GgL00000Eh8qHUAR</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>agentId</name>
+        </inputParameters>
+        <nameSegment>routeWork</nameSegment>
+        <offset>0</offset>
+        <versionString>2.0.0</versionString>
+    </actionCalls>
+    <apiVersion>67.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <environments>Default</environments>
+    <formulas>
+        <name>errorvalue</name>
+        <dataType>String</dataType>
+        <expression>CASE(
+    {!locale},
+
+    &quot;en_US&quot;,
+    &quot;Sorry, something went wrong. Please try again.&quot;,
+
+    &quot;es_MX&quot;,
+    &quot;Lo sentimos, algo sali&#xF3; mal. Por favor, int&#xE9;ntalo de nuevo.&quot;,
+
+    &quot;fr&quot;,
+    &quot;D&#xE9;sol&#xE9;, une erreur s&apos;est produite. Veuillez r&#xE9;essayer.&quot;,
+
+    &quot;de&quot;,
+    &quot;Entschuldigung, es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.&quot;,
+
+    &quot;Sorry, something went wrong. Please try again.&quot;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>greetingvalue</name>
+        <dataType>String</dataType>
+        <expression>CASE(
+    {!locale},
+
+    &quot;en_US&quot;,
+    &quot;Hi! I can speak English, Spanish, French, and German. How can I help?&quot;,
+
+    &quot;es_MX&quot;,
+    &quot;&#xA1;Hola! Hablo ingl&#xE9;s, espa&#xF1;ol, franc&#xE9;s y alem&#xE1;n. &#xBF;C&#xF3;mo puedo ayudarte?&quot;,
+
+    &quot;fr&quot;,
+    &quot;Bonjour ! Je parle anglais, espagnol, fran&#xE7;ais et allemand. Comment puis-je vous aider ?&quot;,
+
+    &quot;de&quot;,
+    &quot;Hallo! Ich spreche Englisch, Spanisch, Franz&#xF6;sisch und Deutsch. Wie kann ich Ihnen helfen?&quot;,
+
+    &quot;Hi! How can I help?&quot;
+)</expression>
+    </formulas>
+    <interviewLabel>Route to Service Agent {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Route to Service Agent</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>RoutingFlow</processType>
+    <recordUpdates>
+        <name>Update_Messaging_Session</name>
+        <label>Update Messaging Session</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Route_to_Service_Agent</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Error_Message__c</field>
+            <value>
+                <elementReference>errorvalue</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Greeting_Message__c</field>
+            <value>
+                <elementReference>greetingvalue</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>locale__c</field>
+            <value>
+                <elementReference>locale</elementReference>
+            </value>
+        </inputAssignments>
+        <object>MessagingSession</object>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Update_Messaging_Session</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>locale</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>
