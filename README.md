@@ -166,12 +166,6 @@ force-app/main/default/
 
 ---
 
-## Blog Post
+## Watch on YouTube
 
-Read the full walkthrough on [Salesforce Diaries by Sanket](https://salesforcediaries.com).
-
----
-
-## License
-
-MIT — feel free to use and adapt for your own org.
+Follow along with the full video walkthrough on the [Salesforce Diaries](https://www.youtube.com/@salesforcediaries2871) YouTube channel.
